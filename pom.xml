@@ -3,7 +3,7 @@
 
 	<groupId>org.jurr.liquibase</groupId>
 	<artifactId>liquibase-db-release-maven-plugin</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>maven-plugin</packaging>
 	<name>Liquibase DB release Maven plugin</name>
 	<description>This is a Maven plugin that allows for easy tagging of Liquibase files.</description>
@@ -29,7 +29,7 @@
 		<connection>scm:git:git@github.com:Jurrie/liquibase-db-release.git</connection>
 		<developerConnection>scm:git:git@github.com:Jurrie/liquibase-db-release.git</developerConnection>
 		<url>https://github.com/Jurrie/liquibase-db-release/tree/master</url>
-		<tag>HEAD</tag>
+		<tag>liquibase-db-release-maven-plugin-1.0.0</tag>
 	</scm>
 
 	<properties>
