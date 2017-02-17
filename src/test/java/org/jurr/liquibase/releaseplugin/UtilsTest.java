@@ -1,7 +1,9 @@
 package org.jurr.liquibase.releaseplugin;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assume.assumeTrue;
 
+import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -44,7 +46,14 @@ public class UtilsTest
 		final Path input = Paths.get("abc\\def");
 		final String expected = "abc/def";
 		final String actual = Utils.convertPathSeparatorToForwardSlash(input);
-		assertEquals(expected, actual);
+		if (!FileSystems.getDefault().getSeparator().equals("\\"))
+		{
+			assumeTrue("This test only works when running on a Windows OS", expected.equals(actual));
+		}
+		else
+		{
+			assertEquals(expected, actual);
+		}
 	}
 
 	@Test
