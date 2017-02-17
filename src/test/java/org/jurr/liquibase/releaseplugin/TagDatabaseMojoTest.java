@@ -57,8 +57,8 @@ public class TagDatabaseMojoTest
 
 		final Source masterXmlFile = xmlFile(basedir, "master.xml");
 		assertThat("master.xml should contain one tagDatabase changeSet", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:changeSet[l:tagDatabase])", NS, equalTo("1")));
-		assertThat("master.xml should include 1.2.3/include_1.2.3.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='1.2.3\\include_1.2.3.xml'])", NS, equalTo("1")));
-		assertThat("master.xml should include latest/include_latest.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='latest\\include_latest.xml'])", NS, equalTo("1")));
+		assertThat("master.xml should include 1.2.3/include_1.2.3.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='1.2.3/include_1.2.3.xml'])", NS, equalTo("1")));
+		assertThat("master.xml should include latest/include_latest.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='latest/include_latest.xml'])", NS, equalTo("1")));
 		assertThat("master.xml should include component_1.2.3.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='component_1.2.3.xml'])", NS, equalTo("1")));
 		assertThat("master.xml should include component_latest.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='component_latest.xml'])", NS, equalTo("1")));
 	}
@@ -138,8 +138,8 @@ public class TagDatabaseMojoTest
 
 		final Source masterXmlFile = xmlFile(basedir, "test%2Ffolder/master.xml");
 		assertThat("test%2Ffolder/master.xml should contain one tagDatabase changeSet", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:changeSet[l:tagDatabase])", NS, equalTo("1")));
-		assertThat("test%2Ffolder/master.xml should include test%2Finclude/include%2Ffile_1.2.3.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='test%2Finclude\\include%2Ffile_1.2.3.xml'])", NS, equalTo("1")));
-		assertThat("test%2Ffolder/master.xml should include test%2Finclude/include%2Ffile_latest.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='test%2Finclude\\include%2Ffile_latest.xml'])", NS, equalTo("1")));
+		assertThat("test%2Ffolder/master.xml should include test%2Finclude/include%2Ffile_1.2.3.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='test%2Finclude/include%2Ffile_1.2.3.xml'])", NS, equalTo("1")));
+		assertThat("test%2Ffolder/master.xml should include test%2Finclude/include%2Ffile_latest.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='test%2Finclude/include%2Ffile_latest.xml'])", NS, equalTo("1")));
 	}
 
 	@Test

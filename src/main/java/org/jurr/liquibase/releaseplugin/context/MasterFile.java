@@ -23,6 +23,7 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
 import org.codehaus.plexus.util.StringUtils;
+import org.jurr.liquibase.releaseplugin.Utils;
 import org.jurr.liquibase.releaseplugin.exceptions.VersionAlreadyTaggedException;
 
 public class MasterFile extends DatabaseChangeLogFile
@@ -204,7 +205,8 @@ public class MasterFile extends DatabaseChangeLogFile
 		{
 			if (includeFile.willBeTagged())
 			{
-				final Attribute file = XML_EVENT_FACTORY.createAttribute(INCLUDE_TAG_FILE_ATTRIBUTE, includeFile.getNewVersionFilename(true).toString());
+				final String newVersionFilename = Utils.convertPathSeparatorToForwardSlash(includeFile.getNewVersionFilename(true));
+				final Attribute file = XML_EVENT_FACTORY.createAttribute(INCLUDE_TAG_FILE_ATTRIBUTE, newVersionFilename);
 				final Attribute relativeToChangelogFile = XML_EVENT_FACTORY.createAttribute(INCLUDE_TAG_RELATIVE_TO_CHANGE_LOG_FILE_ATTRIBUTE, "true");
 
 				xmlEventWriter.add(XML_EVENT_FACTORY.createStartElement(INCLUDE_TAG, Arrays.asList(file, relativeToChangelogFile).iterator(), null));

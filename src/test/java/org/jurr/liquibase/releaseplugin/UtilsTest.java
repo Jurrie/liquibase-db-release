@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.Test;
-import org.jurr.liquibase.releaseplugin.Utils;
 
 public class UtilsTest
 {
@@ -37,5 +36,23 @@ public class UtilsTest
 		final Path expectedPath = Paths.get("abc", "VERSION", "def", "file-VERSION-blah.xml");
 		final Path actualPath = Utils.replaceStringInPath(inputPath, "latest", "VERSION");
 		assertEquals(expectedPath, actualPath);
+	}
+
+	@Test
+	public void testConvertPathSeparatorToForwardSlashWindows()
+	{
+		final Path input = Paths.get("abc\\def");
+		final String expected = "abc/def";
+		final String actual = Utils.convertPathSeparatorToForwardSlash(input);
+		assertEquals(expected, actual);
+	}
+
+	@Test
+	public void testConvertPathSeparatorToForwardSlashUnix()
+	{
+		final Path input = Paths.get("abc/def");
+		final String expected = "abc/def";
+		final String actual = Utils.convertPathSeparatorToForwardSlash(input);
+		assertEquals(expected, actual);
 	}
 }
