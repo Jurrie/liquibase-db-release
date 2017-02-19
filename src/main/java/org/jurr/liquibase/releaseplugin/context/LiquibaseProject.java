@@ -20,29 +20,20 @@ public class LiquibaseProject
 	private final String newVersion;
 	private final Set<Path> includeFilesToSkipTagging = new HashSet<>();
 	private final List<IncludeFile> includeFiles = new ArrayList<>();
+	private final String context;
+    private final Path classpathRoot;
 
-	private String context;
-
-	public LiquibaseProject(@Nonnull final String newVersion, @Nonnull final String context)
-	{
-		this(newVersion);
-		this.context = context;
-	}
-
-	public LiquibaseProject(@Nonnull final String newVersion)
+    public LiquibaseProject(@Nonnull final String newVersion, final String context, @Nonnull final Path classpathRoot)
 	{
 		this.newVersion = newVersion;
-	}
+		this.context = context;
+        this.classpathRoot = classpathRoot;
+    }
 
 	@CheckForNull
 	public String getContext()
 	{
 		return context;
-	}
-
-	public void setContext(@Nonnull final String context)
-	{
-		this.context = context;
 	}
 
 	@Nonnull
@@ -81,7 +72,7 @@ public class LiquibaseProject
 	 */
 	public void addIncludeFileToSkipTagging(@Nonnull final MasterFile masterFile, @Nonnull final Path path)
 	{
-		includeFilesToSkipTagging.add(Utils.resolveIncludeFile(masterFile.getPath(), path, true));
+		includeFilesToSkipTagging.add(Utils.resolveIncludeFile(masterFile.getPath(), path, true, classpathRoot));
 	}
 
 	public void addIncludeFileToSkipTagging(@Nonnull final String uri)

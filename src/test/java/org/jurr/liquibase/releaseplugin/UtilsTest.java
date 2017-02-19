@@ -14,20 +14,22 @@ public class UtilsTest
 	@Test
 	public void testResolveIncludeFileRelativeToChangeLog()
 	{
+		final Path classpathRoot = Paths.get("");
 		final Path changeLogFile = Paths.get("dir", "masterfile.xml");
 		final Path includeFile = Paths.get("subdir", "include.xml");
 		final Path expectedPath = Paths.get("dir", "subdir", "include.xml");
-		final Path actualPath = Utils.resolveIncludeFile(changeLogFile, includeFile, true);
+		final Path actualPath = Utils.resolveIncludeFile(changeLogFile, includeFile, true, classpathRoot);
 		assertEquals(expectedPath, actualPath);
 	}
 
 	@Test
 	public void testResolveIncludeFileNotRelativeToChangeLog()
 	{
+		final Path classpathRoot = Paths.get("");
 		final Path changeLogFile = Paths.get("dir", "masterfile.xml");
 		final Path includeFile = Paths.get("subdir", "include.xml");
 		final Path expectedPath = includeFile;
-		final Path actualPath = Utils.resolveIncludeFile(changeLogFile, includeFile, false);
+		final Path actualPath = Utils.resolveIncludeFile(changeLogFile, includeFile, false, classpathRoot);
 		assertEquals(expectedPath, actualPath);
 	}
 

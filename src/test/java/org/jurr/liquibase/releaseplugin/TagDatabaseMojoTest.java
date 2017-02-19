@@ -62,6 +62,16 @@ public class TagDatabaseMojoTest
 		assertThat("master.xml should include component_1.2.3.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='component_1.2.3.xml'])", NS, equalTo("1")));
 		assertThat("master.xml should include component_latest.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='component_latest.xml'])", NS, equalTo("1")));
 	}
+	@Test
+	public void testIncludedFromRootFiles() throws Exception
+	{
+		final File basedir = resources.getBasedir("testIncludedFromRootFiles");
+		maven.executeMojo(basedir, "tag", np("newVersion", "1.2.3"), np("masterFiles", np("masterFile", "src/main/resources/master/master.xml")), np("skippedIncludeFiles", np("skippedIncludeFile", "src/main/resources/component.xml")));
+
+		File resourcesPath = basedir.toPath().resolve("src/main/resources").toFile();
+		assertFilesPresent(resourcesPath, "master/master.xml", "master/latest.xml", "master/1.2.3.xml");
+		assertFilesPresent(resourcesPath, "component.xml");
+	}
 
 	@Test
 	public void testIgnoredFiles() throws Exception

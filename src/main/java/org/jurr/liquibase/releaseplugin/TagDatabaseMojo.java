@@ -51,16 +51,19 @@ public class TagDatabaseMojo extends AbstractMojo
 	@Parameter(property = "settings", readonly = true, required = true)
 	private Settings settings;
 
+	@Parameter(property = "classpathRoot", readonly = true, required = true, defaultValue = "${project.build.resources[0].directory}")
+    private File classpathRoot;
+
 	@Override
 	public void execute() throws MojoExecutionException, MojoFailureException
 	{
 		retrieveNewVersion();
 
-		final LiquibaseProject liquibaseProject = new LiquibaseProject(newVersion, context);
+		final LiquibaseProject liquibaseProject = new LiquibaseProject(newVersion, context, classpathRoot.toPath());
 
 		for (final File masterFile : masterFiles)
 		{
-			liquibaseProject.addMasterFile(new MasterFile(masterFile.toPath()));
+			liquibaseProject.addMasterFile(new MasterFile(masterFile.toPath(), classpathRoot.toPath()));
 		}
 
 		if (skippedIncludeFiles != null)

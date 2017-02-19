@@ -20,11 +20,11 @@ public final class Utils
 	}
 
 	@Nonnull
-	public static Path resolveIncludeFile(@Nonnull final Path masterFile, @Nonnull final Path includeFile, final boolean relativeToChangelogFile)
+	public static Path resolveIncludeFile(@Nonnull final Path masterFile, @Nonnull final Path includeFile, final boolean relativeToChangelogFile, @Nonnull final Path classpathRoot)
 	{
 		if (!relativeToChangelogFile)
 		{
-			return includeFile;
+			return classpathRoot.resolve(includeFile);
 		}
 
 		return masterFile.resolveSibling(includeFile);
