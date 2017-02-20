@@ -64,12 +64,23 @@ public class TagDatabaseMojoTest
 	}
 
 	@Test
-	public void testIncludedFromRootFiles() throws Exception
+	public void testIncludedFromRootWithDefaultRoot() throws Exception
 	{
 		final File basedir = resources.getBasedir("testIncludedFromRootFiles");
 		maven.executeMojo(basedir, "tag", np("newVersion", "1.2.3"), np("masterFiles", np("masterFile", "src/main/resources/master/master.xml")), np("skippedIncludeFiles", np("skippedIncludeFile", "src/main/resources/component.xml")));
 
 		File resourcesPath = basedir.toPath().resolve("src/main/resources").toFile();
+		assertFilesPresent(resourcesPath, "master/master.xml", "master/latest.xml", "master/1.2.3.xml");
+		assertFilesPresent(resourcesPath, "component.xml");
+	}
+
+	@Test
+	public void testIncludedFromRootWithDifferentRoot() throws Exception
+	{
+		final File basedir = resources.getBasedir("testIncludedFromRootWithDifferentRoot");
+		maven.executeMojo(basedir, "tag", np("newVersion", "1.2.3"), np("masterFiles", np("masterFile", "newroot/master/master.xml")), np("classpathRoot", "newroot"), np("skippedIncludeFiles", np("skippedIncludeFile", "newroot/component.xml")));
+
+		File resourcesPath = basedir.toPath().resolve("newroot").toFile();
 		assertFilesPresent(resourcesPath, "master/master.xml", "master/latest.xml", "master/1.2.3.xml");
 		assertFilesPresent(resourcesPath, "component.xml");
 	}
