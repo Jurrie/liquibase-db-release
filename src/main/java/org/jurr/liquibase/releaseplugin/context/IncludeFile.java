@@ -23,7 +23,7 @@ public class IncludeFile extends DatabaseChangeLogFile
 	private final MasterFile masterFile;
 	private boolean containsChangeSets;
 
-	IncludeFile(@Nonnull final Path path, @Nonnull final MasterFile masterFile, final boolean relativeToChangelogFile, final @Nonnull Path classpathRoot)
+	IncludeFile(@Nonnull final Path path, @Nonnull final MasterFile masterFile, final boolean relativeToChangelogFile, @Nonnull final Path classpathRoot)
 	{
 		super(Utils.resolveIncludeFile(masterFile.getPath(), path, relativeToChangelogFile, classpathRoot));
 		this.masterFile = masterFile;

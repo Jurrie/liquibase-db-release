@@ -33,7 +33,7 @@ public class MasterFile extends DatabaseChangeLogFile
 	private boolean bufferingXMLEvents = false;
 	private List<XMLEvent> bufferedXMLEvents = new LinkedList<>();
 
-	public MasterFile(final @Nonnull Path path)
+	public MasterFile(@Nonnull final Path path)
 	{
 		super(path);
 	}
@@ -64,7 +64,7 @@ public class MasterFile extends DatabaseChangeLogFile
 	}
 
 	@Override
-	void readStartDocumentTag(final @Nonnull XMLEventReader xmlEventReader, final @Nonnull StartDocument startDocumentElement, final @Nonnull XMLEventWriter xmlEventWriter) throws XMLStreamException
+	void readStartDocumentTag(@Nonnull final XMLEventReader xmlEventReader, @Nonnull final StartDocument startDocumentElement, @Nonnull final XMLEventWriter xmlEventWriter) throws XMLStreamException
 	{
 		xmlEventWriter.add(startDocumentElement);
 
