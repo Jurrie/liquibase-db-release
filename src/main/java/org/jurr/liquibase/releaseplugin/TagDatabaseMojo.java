@@ -51,7 +51,7 @@ public class TagDatabaseMojo extends AbstractMojo
 	@Parameter(property = "settings", readonly = true, required = true)
 	private Settings settings;
 
-	@Parameter(property = "classpathRoot", readonly = true, required = true, defaultValue = "${project.build.resources[0].directory}")
+	@Parameter(property = "classpathRoot", required = true, defaultValue = "${project.build.resources[0].directory}")
 	private File classpathRoot;
 
 	@Override
