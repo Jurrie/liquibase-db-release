@@ -32,13 +32,13 @@ public class MasterFile extends DatabaseChangeLogFile
 
 	private boolean bufferingXMLEvents = false;
 	private List<XMLEvent> bufferedXMLEvents = new LinkedList<>();
-    private final Path classpathRoot;
+	private final Path classpathRoot;
 
-    public MasterFile(final @Nonnull Path path, final @Nonnull Path classpathRoot)
+	public MasterFile(final @Nonnull Path path, final @Nonnull Path classpathRoot)
 	{
 		super(path);
-        this.classpathRoot = classpathRoot;
-    }
+		this.classpathRoot = classpathRoot;
+	}
 
 	private void addXMLEventToOutput(@Nonnull final XMLEventWriter xmlEventWriter, @Nonnull final XMLEvent xmlEvent) throws XMLStreamException
 	{
@@ -149,7 +149,7 @@ public class MasterFile extends DatabaseChangeLogFile
 		final Path includeFilePath = Paths.get(includeStartElement.getAttributeByName(INCLUDE_TAG_FILE_ATTRIBUTE).getValue());
 
 		final String relativeToChangelogFileString = includeStartElement.getAttributeByName(INCLUDE_TAG_RELATIVE_TO_CHANGE_LOG_FILE_ATTRIBUTE).getValue();
-        final boolean relativeToChangelogFile = Boolean.valueOf(relativeToChangelogFileString);
+		final boolean relativeToChangelogFile = Boolean.valueOf(relativeToChangelogFileString);
 
 		final IncludeFile includeFile = new IncludeFile(includeFilePath, this, relativeToChangelogFile, classpathRoot);
 		includedFiles.add(includeFile);

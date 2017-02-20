@@ -21,14 +21,14 @@ public class LiquibaseProject
 	private final Set<Path> includeFilesToSkipTagging = new HashSet<>();
 	private final List<IncludeFile> includeFiles = new ArrayList<>();
 	private final String context;
-    private final Path classpathRoot;
+	private final Path classpathRoot;
 
-    public LiquibaseProject(@Nonnull final String newVersion, final String context, @Nonnull final Path classpathRoot)
+	public LiquibaseProject(@Nonnull final String newVersion, final String context, @Nonnull final Path classpathRoot)
 	{
 		this.newVersion = newVersion;
 		this.context = context;
-        this.classpathRoot = classpathRoot;
-    }
+		this.classpathRoot = classpathRoot;
+	}
 
 	@CheckForNull
 	public String getContext()

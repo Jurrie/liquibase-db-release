@@ -62,6 +62,7 @@ public class TagDatabaseMojoTest
 		assertThat("master.xml should include component_1.2.3.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='component_1.2.3.xml'])", NS, equalTo("1")));
 		assertThat("master.xml should include component_latest.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='component_latest.xml'])", NS, equalTo("1")));
 	}
+
 	@Test
 	public void testIncludedFromRootFiles() throws Exception
 	{
