@@ -55,6 +55,12 @@ public class LiquibaseProject
 	}
 
 	@Nonnull
+	Path getClasspathRoot()
+	{
+		return classpathRoot;
+	}
+
+	@Nonnull
 	public Set<Path> getIncludeFilesToSkipTagging()
 	{
 		return Collections.unmodifiableSet(includeFilesToSkipTagging);

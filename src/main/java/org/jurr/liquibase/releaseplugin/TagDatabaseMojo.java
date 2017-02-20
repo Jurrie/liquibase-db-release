@@ -63,7 +63,7 @@ public class TagDatabaseMojo extends AbstractMojo
 
 		for (final File masterFile : masterFiles)
 		{
-			liquibaseProject.addMasterFile(new MasterFile(masterFile.toPath(), classpathRoot.toPath()));
+			liquibaseProject.addMasterFile(new MasterFile(masterFile.toPath()));
 		}
 
 		if (skippedIncludeFiles != null)
