@@ -4,8 +4,6 @@ import static io.takari.maven.testing.TestResources.assertFilesNotPresent;
 import static io.takari.maven.testing.TestResources.assertFilesPresent;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
 import static org.xmlmatchers.XmlMatchers.hasXPath;
 
 import java.io.File;
@@ -18,6 +16,9 @@ import java.util.List;
 import javax.annotation.Nonnull;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.transform.Source;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 import io.takari.maven.testing.TestMavenRuntime;
 import io.takari.maven.testing.TestResources;
@@ -38,6 +39,26 @@ public class TagDatabaseMojoTest
 	public final TestMavenRuntime maven = new TestMavenRuntime();
 
 	private static final NamespaceContext NS = new SimpleNamespaceContext().withBinding("l", "http://www.liquibase.org/xml/ns/dbchangelog");
+
+	@Test
+	public void testWindowsPathNames() throws Exception
+	{
+		final File basedir = resources.getBasedir("testWindowsPathNames");
+		maven.executeMojo(basedir, "tag", np("newVersion", "1.2.3"), np("masterFiles", np("masterFile", "master.xml")));
+
+		assertFilesPresent(basedir, "1.2.3/include_1.2.3.xml", "latest/include_latest.xml");
+		assertFilesPresent(basedir, "master.xml");
+
+		assertThat("1.2.3/include_1.2.3.xml should contain exactly one changeSet", xmlFile(basedir, "1.2.3/include_1.2.3.xml"), hasXPath("count(/l:databaseChangeLog/l:changeSet)", NS, equalTo("1")));
+		assertThat("latest/include_latest.xml should not contain a changeSet", xmlFile(basedir, "latest/include_latest.xml"), not(hasXPath("/l:databaseChangeLog/l:changeSet", NS)));
+
+		final Source masterXmlFile = xmlFile(basedir, "master.xml");
+		assertThat("master.xml should contain one tagDatabase changeSet", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:changeSet[l:tagDatabase])", NS, equalTo("1")));
+		assertThat("master.xml should include 1.2.3/include_1.2.3.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='1.2.3/include_1.2.3.xml'])", NS, equalTo("1")));
+
+		// Note that we do not convert the backslash to forward slash here. This is intentional. Otherwise it will cause VCSs to see this as change.
+		assertThat("master.xml should include latest\\include_latest.xml", masterXmlFile, hasXPath("count(/l:databaseChangeLog/l:include[@file='latest\\include_latest.xml'])", NS, equalTo("1")));
+	}
 
 	@Test
 	public void testIncludedFiles() throws Exception

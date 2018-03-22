@@ -1,6 +1,5 @@
 package org.jurr.liquibase.releaseplugin;
 
-import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -22,12 +21,13 @@ public final class Utils
 	@Nonnull
 	public static Path resolveIncludeFile(@Nonnull final Path masterFile, @Nonnull final Path includeFile, final boolean relativeToChangelogFile, @Nonnull final Path classpathRoot)
 	{
+		final Path includeFileWithSlashesCorrected = Paths.get(Utils.convertPathSeparatorToForwardSlash(includeFile));
 		if (!relativeToChangelogFile)
 		{
-			return classpathRoot.resolve(includeFile);
+			return classpathRoot.resolve(includeFileWithSlashesCorrected);
 		}
 
-		return masterFile.resolveSibling(includeFile);
+		return masterFile.resolveSibling(includeFileWithSlashesCorrected);
 	}
 
 	@Nonnull
@@ -39,8 +39,7 @@ public final class Utils
 	@Nonnull
 	public static String convertPathSeparatorToForwardSlash(@Nonnull final Path path)
 	{
-		final String separator = FileSystems.getDefault().getSeparator();
-		return StringUtils.replace(path.toString(), separator, "/");
+		return StringUtils.replace(path.toString(), "\\", "/");
 	}
 
 	public static void skipUntillEndElement(@Nonnull final XMLEventReader xmlEventReader, @Nonnull final StartElement startElement) throws XMLStreamException
