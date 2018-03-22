@@ -11,7 +11,7 @@ The plugin will:
 The tagDatabase changeSet looks like:
 ```xml
 <!-- Version 1.2.3 -->
-<include file="myApp\1.2.3.xml" relativeToChangelogFile="true"></include>
+<include file="myApp/1.2.3.xml" relativeToChangelogFile="true"></include>
 <changeSet id="Tag 1.2.3" author="liquibase-db-release">
 	<tagDatabase tag="1.2.3"></tagDatabase>
 </changeSet>
@@ -59,7 +59,7 @@ Master.xml looks like this:
 	</changeSet>
 
 	<!-- Version 1.2.3 -->
-	<include file="myApp\1.2.3.xml" relativeToChangelogFile="true"></include>
+	<include file="myApp/1.2.3.xml" relativeToChangelogFile="true"></include>
 	<changeSet id="Tag 1.2.3" author="liquibase-db-release">
 		<tagDatabase tag="1.2.3"></tagDatabase>
 	</changeSet>
