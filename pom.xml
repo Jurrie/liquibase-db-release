@@ -54,12 +54,11 @@
 			<groupId>org.codehaus.plexus</groupId>
 			<artifactId>plexus-interactivity-api</artifactId>
 			<version>1.0-alpha-6</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.codehaus.plexus</groupId>
-					<artifactId>plexus-utils</artifactId>
-				</exclusion>
-			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-utils</artifactId>
+			<version>3.0.21</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.maven</groupId>
@@ -79,9 +78,21 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-core</artifactId>
+			<version>1.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.xmlmatchers</groupId>
 			<artifactId>xml-matchers</artifactId>
 			<version>1.0-RC1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.3.03</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -205,6 +216,19 @@
 				<version>2.8.2</version>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.1</version>
+				<configuration>
+					<failOnWarning>true</failOnWarning>
+					<ignoredUnusedDeclaredDependencies>
+						<!-- Required for takari-plugin-testing -->
+						<ignoredUnusedDeclaredDependency>org.apache.maven:maven-core:jar:3.2.3</ignoredUnusedDeclaredDependency>
+						<ignoredUnusedDeclaredDependency>org.apache.maven:maven-compat:jar:3.2.3</ignoredUnusedDeclaredDependency>
+					</ignoredUnusedDeclaredDependencies>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
 				<version>3.2.1</version>
@@ -272,6 +296,18 @@
 									<configuration>
 										<failBuildOnAnyVulnerability>true</failBuildOnAnyVulnerability>
 									</configuration>
+								</execution>
+							</executions>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-dependency-plugin</artifactId>
+							<executions>
+								<execution>
+									<phase>test-compile</phase>
+									<goals>
+										<goal>analyze-only</goal>
+									</goals>
 								</execution>
 							</executions>
 						</plugin>
