@@ -149,7 +149,7 @@ public class MasterFile extends DatabaseChangeLogFile
 		final String relativeToChangelogFileString = includeStartElement.getAttributeByName(INCLUDE_TAG_RELATIVE_TO_CHANGE_LOG_FILE_ATTRIBUTE).getValue();
 		final boolean relativeToChangelogFile = Boolean.valueOf(relativeToChangelogFileString);
 
-		final IncludeFile includeFile = new IncludeFile(includeFilePath, this, relativeToChangelogFile, getLiquibaseProject().getClasspathRoot());
+		final IncludeFile includeFile = new IncludeFile(includeFilePath, this, relativeToChangelogFile, getLiquibaseProject().getClasspathRoot(), includeStartElement.getAttributes());
 		includedFiles.add(includeFile);
 	}
 
@@ -198,10 +198,9 @@ public class MasterFile extends DatabaseChangeLogFile
 			if (includeFile.willBeTagged())
 			{
 				final String newVersionFilename = Utils.convertPathSeparatorToForwardSlash(includeFile.getNewVersionFilename(true));
-				final Attribute file = XML_EVENT_FACTORY.createAttribute(INCLUDE_TAG_FILE_ATTRIBUTE, newVersionFilename);
-				final Attribute relativeToChangelogFile = XML_EVENT_FACTORY.createAttribute(INCLUDE_TAG_RELATIVE_TO_CHANGE_LOG_FILE_ATTRIBUTE, "true");
+				final List<Attribute> attributesForIncludeTag = getAttributesForIncludeTag(includeFile.getAttributes(), newVersionFilename);
 
-				xmlEventWriter.add(XML_EVENT_FACTORY.createStartElement(INCLUDE_TAG, Arrays.asList(file, relativeToChangelogFile).iterator(), null));
+				xmlEventWriter.add(XML_EVENT_FACTORY.createStartElement(INCLUDE_TAG, attributesForIncludeTag.iterator(), null));
 				xmlEventWriter.add(XML_EVENT_FACTORY.createEndElement(INCLUDE_TAG, null));
 				xmlEventWriter.add(XML_EVENT_FACTORY.createCharacters("\n"));
 			}
@@ -225,6 +224,25 @@ public class MasterFile extends DatabaseChangeLogFile
 
 		xmlEventWriter.add(XML_EVENT_FACTORY.createEndElement(CHANGE_SET_TAG, null));
 		xmlEventWriter.add(XML_EVENT_FACTORY.createCharacters("\n\n"));
+	}
+
+	@Nonnull
+	private List<Attribute> getAttributesForIncludeTag(@Nonnull final List<Attribute> originalAtributesOnIncludeTag, @Nonnull final String newVersionFilename)
+	{
+		final List<Attribute> result = new ArrayList<>(originalAtributesOnIncludeTag.size());
+		result.add(XML_EVENT_FACTORY.createAttribute(INCLUDE_TAG_FILE_ATTRIBUTE, newVersionFilename));
+		result.add(XML_EVENT_FACTORY.createAttribute(INCLUDE_TAG_RELATIVE_TO_CHANGE_LOG_FILE_ATTRIBUTE, "true"));
+
+		// Now copy all the other attributes
+		for (Attribute originalAttribute : originalAtributesOnIncludeTag)
+		{
+			if (!originalAttribute.getName().equals(INCLUDE_TAG_FILE_ATTRIBUTE) && !originalAttribute.getName().equals(INCLUDE_TAG_RELATIVE_TO_CHANGE_LOG_FILE_ATTRIBUTE))
+			{
+				result.add(originalAttribute);
+			}
+		}
+
+		return result;
 	}
 
 	@Override

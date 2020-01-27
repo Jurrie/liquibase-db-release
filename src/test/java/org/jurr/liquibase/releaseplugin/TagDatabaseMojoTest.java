@@ -213,6 +213,16 @@ public class TagDatabaseMojoTest
 		assertThat("master.xml should contain one tagDatabase changeSet for version 2.0.0 with context 'myContext'", xmlFile(basedir, "master.xml"), hasXPath("count(/l:databaseChangeLog/l:changeSet[@context='myContext' and l:tagDatabase[@tag='2.0.0']])", NS, equalTo("1")));
 	}
 
+	@Test
+	public void testContextOnIncludeFile() throws Exception
+	{
+		final File basedir = resources.getBasedir("testContextOnIncludeFile");
+		maven.executeMojo(basedir, "tag", np("newVersion", "1.2.3"), np("masterFiles", np("masterFile", "master.xml")));
+
+		assertThat("master.xml should contain two includes with context 'myContext'", xmlFile(basedir, "master.xml"), hasXPath("count(/l:databaseChangeLog/l:include[@context='myContext'])", NS, equalTo("2")));
+		assertThat("master.xml should contain no includes without context", xmlFile(basedir, "master.xml"), hasXPath("count(/l:databaseChangeLog/l:include[not(@context)])", NS, equalTo("0")));
+	}
+
 	@Nonnull
 	private static Source xmlFile(@Nonnull final File basedir, @Nonnull final String xmlFile)
 	{
