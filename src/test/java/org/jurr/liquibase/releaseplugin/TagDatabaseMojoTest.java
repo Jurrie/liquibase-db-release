@@ -18,7 +18,7 @@ import javax.xml.namespace.NamespaceContext;
 import javax.xml.transform.Source;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import io.takari.maven.testing.TestMavenRuntime;
 import io.takari.maven.testing.TestResources;
